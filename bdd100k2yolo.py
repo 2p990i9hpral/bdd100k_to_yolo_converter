@@ -32,7 +32,7 @@ def convert2yolo_roi(img_name, obj):
 
 
 if __name__ == '__main__':
-    imgPath = "./100k/train/"
+    imgRootPath = "./100k/train/"
     labelPath = "./labels/bdd100k_labels_images_train.json"
 
     with open(labelPath) as labelFile:
@@ -48,14 +48,15 @@ if __name__ == '__main__':
     for line in tqdm(lines):
         name = line['name']
         labels = line['labels']
-        txtPath = (imgPath + name).replace("jpg", "txt")
-        if not os.path.isfile(imgPath+name):
+        imgPath = imgRootPath + name
+        txtPath = imgPath.replace("jpg", "txt")
+        if not os.path.isfile(imgPath):
             continue
         with open(txtPath, "w")as file:
             for label in labels:
                 category = label["category"]
                 if category in counter.keys():
                     counter[category] += 1
-                    file.write(convert2yolo_roi(imgPath+name, label))
+                    file.write(convert2yolo_roi(imgPath, label))
 
     print("line_num : {}".format(len(lines)))
