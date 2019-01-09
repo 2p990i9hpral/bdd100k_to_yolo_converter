@@ -5,7 +5,7 @@ import cv2
 
 
 def classify_classes(c_name):
-    vehicle = ["car", "bike", "truck", "motor", "bus", "train"]
+    vehicle = ["car", "truck", "bus", "train"]
     if c_name in vehicle:
         return 0
     else:
@@ -38,10 +38,8 @@ if __name__ == '__main__':
     with open(labelPath) as labelFile:
         lines = json.load(labelFile)
 
-    counter = {"car": 0,
-               "bike": 0,
+    counter = {"car": 0,    
                "truck": 0,
-               "motor": 0,
                "bus": 0,
                "train": 0,
                "person": 0,
@@ -51,7 +49,7 @@ if __name__ == '__main__':
         name = line['name']
         labels = line['labels']
         txtPath = (imgPath + name).replace("jpg", "txt")
-        if os.path.isfile(txtPath):
+        if not os.path.isfile(imgPath+name):
             continue
         with open(txtPath, "w")as file:
             for label in labels:
